@@ -4,7 +4,7 @@
 [![PyPI](https://shields.private.coffee/pypi/v/hostsd)](https://pypi.org/project/hostsd/)
 [![PyPI - Python Version](https://shields.private.coffee/pypi/pyversions/hostsd)](https://pypi.org/project/hostsd/)
 [![PyPI - License](https://shields.private.coffee/pypi/l/hostsd)](https://pypi.org/project/hostsd/)
-[![Git Workflow Status](https://shields.private.coffee/gitea/last-commit/kumi/hostsd?gitea-url=https://git.private.coffee)](https://git.private.coffee/kumi/hostsd)
+[![Latest Git Commit](https://shields.private.coffee/gitea/last-commit/kumi/hostsd?gitea_url=https://git.private.coffee)](https://git.private.coffee/kumi/hostsd)
 
 `hostsd` is a simple hosts file manager that allows you to separate your hosts file into multiple files and easily enable or disable them. It's useful for development environments where you need to manage lots of hosts entries, or for managing ad-blocking hosts files.
 
