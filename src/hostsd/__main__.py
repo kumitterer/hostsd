@@ -54,7 +54,8 @@ def read_directory(
             yield f"# {full_path}\n\n{filecontent}"
 
         elif infile.is_dir():
-            yield from read_directory(infile, full_path)
+            if not (infile.name.startswith(".") or infile.name.endswith(".disabled")):
+                yield from read_directory(infile, full_path)
 
 
 def get_new_content(dirpath: Union[str, PathLike] = HOSTS_DIR) -> str:
