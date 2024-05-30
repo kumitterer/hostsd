@@ -34,7 +34,7 @@ def read_directory(
     if not (directory.exists() and directory.is_dir()):
         raise IOError(f"Directory {dirpath} does not exist or is not a directory.")
 
-    for infile in sorted(list(directory.glob("**/*")), key=lambda f: f.name):
+    for infile in sorted(list(directory.iterdir()), key=lambda f: f.name):
         full_path = f"{prefix if prefix else ''}{sep if prefix and prefix[-1] != sep else ''}{infile.name}"
 
         if (
