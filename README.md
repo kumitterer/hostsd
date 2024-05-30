@@ -19,6 +19,13 @@
 pip install hostsd
 ```
 
+Now, to ensure that your existing `/etc/hosts` contents are retained, you can copy the file to `/etc/hosts.d/00-original`:
+
+```bash
+sudo mkdir /etc/hosts.d
+sudo cp /etc/hosts /etc/hosts.d/00-original
+```
+
 ## Usage
 
 To write the contents of `/etc/hosts.d/*` to `/etc/hosts`:
