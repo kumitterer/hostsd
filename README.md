@@ -40,13 +40,31 @@ You can also specify the input and output paths:
 hostsd -i /etc/hosts.d -o /etc/hosts
 ```
 
-You can disable a file by adding a `.disabled` extension:
+### Excluding files
+
+There are several ways to exclude files and directories from being included in the output:
+
+1. You can disable a file or directory by adding a `.disabled` extension:
 
 ```bash
 mv /etc/hosts.d/10-my-file /etc/hosts.d/10-my-file.disabled
 ```
 
-Hidden files (files starting with a dot) are ignored as well.
+2. Hidden files and directories are ignored as well:
+
+```bash
+mv /etc/hosts.d/regular-file /etc/hosts.d/.hidden-file
+```
+
+3. You can include the magic string `HOSTSD_IGNORE` within a file to exclude it from the output, for example as a comment:
+
+```bash
+echo "# HOSTSD_IGNORE" >> /etc/hosts.d/10-my-file
+```
+
+4. Any binary files are automatically ignored.
+
+Note that files are not currently checked for validity, so your `hosts.d` directory should only contain valid hosts file entries or files that are excluded using one of the methods above.
 
 ## Running hostsd automatically
 
