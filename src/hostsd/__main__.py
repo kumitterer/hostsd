@@ -124,6 +124,12 @@ def main():
         default=HOSTS_FILE,
     )
 
+    parser.add_argument(
+        "--init",
+        help="Create the hosts.d directory if it does not exist, copying the contents of the hosts file to it",
+        action="store_true",
+    )
+
     args = parser.parse_args()
 
     if args.dir:
@@ -134,10 +140,6 @@ def main():
         else:
             input_dir = Path(HOSTS_DIR)
 
-    if not input_dir.exists():
-        print(f"Directory {args.dir} does not exist – exiting")
-        return
-
     if args.output:
         output_file = Path(args.output)
     else:
@@ -146,15 +148,41 @@ def main():
         else:
             output_file = Path(HOSTS_FILE)
 
-    if not output_file.exists():
-        print(f"File {args.output} does not exist – exiting")
-        return
+    if not input_dir.exists():
+        if args.init:
+            try:
+                input_dir.mkdir(parents=True)
+
+                if output_file.exists():
+                    try:
+                        write_hosts_file(Path(output_file).read_text(), input_dir / "00-hosts")
+                        print(f"Directory {input_dir} created and initialized with contents of {output_file}")
+
+                    except IOError as e:
+                        print(f"Could not write existing hosts file to {input_dir}: {e}")
+                        return 2
+
+                else:
+                    print(f"Directory {input_dir} created – hosts file {output_file} does not exist, so nothing was copied")
+
+            except IOError as e:
+                print(f"Could not create {input_dir}: {e}")
+                return 2
+
+        else:
+            print(f"Directory {input_dir} does not exist – exiting")
+            return 1
+
+    elif args.init:
+        print(f"Directory {input_dir} already exists – cannot initialize")
+        return 3
 
     try:
-        write_hosts_file(get_new_content(args.dir), args.output)
+        write_hosts_file(get_new_content(args.dir), output_file)
     except IOError as e:
-        print(f"An error occurred: {e}")
+        print(f"An error occurred writing the output file: {e}")
+        return 4
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())
