@@ -6,7 +6,7 @@
 [![PyPI - License](https://shields.private.coffee/pypi/l/hostsd)](https://pypi.org/project/hostsd/)
 [![Latest Git Commit](https://shields.private.coffee/gitea/last-commit/kumi/hostsd?gitea_url=https://git.private.coffee)](https://git.private.coffee/kumi/hostsd)
 
-`hostsd` is a simple hosts file manager that allows you to separate your hosts file into multiple files and easily enable or disable them. It's useful for development environments where you need to manage lots of hosts entries, or for managing ad-blocking hosts files.
+`hostsd` is a simple hosts file manager that allows you to separate your hosts file into multiple files and directories and easily enable or disable them. It's useful for development environments where you need to manage lots of hosts entries, or for managing ad-blocking hosts files.
 
 ## Dependencies
 
@@ -15,16 +15,57 @@
 
 ## Installation
 
+### From PyPI
+
+Just install the package using pip, ideally in a virtual environment:
+
 ```bash
 pip install hostsd
 ```
 
-Now, to ensure that your existing `/etc/hosts` contents are retained, you can copy the file to `/etc/hosts.d/00-original`:
+See the [hostsd PyPI page](https://pypi.org/project/hostsd/) for more information.
+
+### From AUR
+
+If you're using Arch Linux, you can install the package from the AUR:
 
 ```bash
-sudo mkdir /etc/hosts.d
-sudo cp /etc/hosts /etc/hosts.d/00-original
+yay -S hostsd
 ```
+
+After that, the `hostsd` command will be available globally.
+
+See the [hostsd AUR page](https://aur.archlinux.org/packages/hostsd/) for more information.
+
+### From source
+
+You can also install `hostsd` from source, again ideally in a virtual environment:
+
+```bash
+git clone https://git.private.coffee/kumi/hostsd.git
+cd hostsd
+pip install .
+```
+
+The short version of that is:
+
+```bash
+pip install git+https://git.private.coffee/kumi/hostsd.git
+```
+
+## Configuration
+
+Usually, you don't really need to configure anything. By default, `hostsd` reads files from `/etc/hosts.d` and writes the output to `/etc/hosts` (or `C:\Windows\System32\drivers\etc\hosts[.d]` on Windows).
+
+To get started, simply run `hostsd --init` to move your existing hosts file to `/etc/hosts.d/00-hosts` and create a new `/etc/hosts` file that includes all files in `/etc/hosts.d`.
+
+If you need to change the input or output paths, you can use the `-d` and `-o` options:
+
+```bash
+hostsd -d /etc/my-hosts/ -o /etc/my-hostfile
+```
+
+This will read files from `/etc/my-hosts/` and write the output to `/etc/my-hostfile`.
 
 ## Usage
 
