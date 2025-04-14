@@ -49,7 +49,7 @@ def read_directory(
                     continue
             except UnicodeDecodeError:
                 print(f"File {infile.name} is not a text file - skipping")
-                return
+                continue
 
             yield f"# {full_path}\n\n{filecontent}"
 
